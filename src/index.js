@@ -1,16 +1,21 @@
 import { ApolloServer } from 'apollo-server-express'
 import express from 'express'
 import mongoose from 'mongoose'
+import dotenv from 'dotenv'
 
 import resolvers from './schema/resolvers'
 import typeDefs from './schema/typeDefs'
 
 const startServer = async () => {
   const app = express()
+  dotenv.config()
 
-  await mongoose.connect('mongodb://localhost:27017/word', {
-    useNewUrlParser: true,
-  })
+  await mongoose.connect(
+    `mongodb+srv://${process.env.USER_NAME}:${process.env.PASSWORD}@angular-wordbox-web.b5ken.mongodb.net/word?retryWrites=true&w=majority`,
+    {
+      useNewUrlParser: true,
+    },
+  )
 
   const server = new ApolloServer({
     typeDefs,
@@ -22,7 +27,7 @@ const startServer = async () => {
   app.listen({ port: 4000 }, () =>
     // eslint-disable-next-line no-console
     console.log(
-      `🚀 Server ready at http://localhost:4000${server.graphqlPath}`,
+      `🚀 Server ready at http://localhost:4000${server.graphqlPath}ql`,
     ),
   )
 }
