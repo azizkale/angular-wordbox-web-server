@@ -10,12 +10,9 @@ const startServer = async () => {
   const app = express()
   dotenv.config()
 
-  await mongoose.connect(
-    `mongodb+srv://${process.env.USER_NAME}:${process.env.PASSWORD}@angular-wordbox-web.b5ken.mongodb.net/word?retryWrites=true&w=majority`,
-    {
-      useNewUrlParser: true,
-    },
-  )
+  await mongoose.connect(process.env.MONGO_CONNECTION_STRING, {
+    useNewUrlParser: true,
+  })
 
   const server = new ApolloServer({
     typeDefs,
