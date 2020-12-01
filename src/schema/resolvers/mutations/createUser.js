@@ -1,13 +1,18 @@
 import User from '../../../models/User'
 
-const createUser = async (_, { email, password, username }) => {
-  const user = new User({ email, password, username })
-  await User.find({ email }, (error, data) => {
-    if (!error && !data.length) {
-      user.save()
+const createUser = async (_, { email, username }) => {
+  const user = new User({ email, username })
+  try {
+    const existingUser = await User.findOne({ email })
+    if (existingUser) {
+      throw Error('User exist!')
     }
-  })
-  return user
+    user.save()
+    return user
+  } catch (error) {
+    console.log(error)
+    return { status: 409, message: 'User exist!' }
+  }
 }
 
 export default createUser
