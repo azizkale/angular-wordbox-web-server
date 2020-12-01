@@ -10,7 +10,6 @@ const createUser = async (_, { email, username }) => {
     user.save()
     return user
   } catch (error) {
-    console.log(error)
     return { status: 409, message: 'User exist!' }
   }
 }

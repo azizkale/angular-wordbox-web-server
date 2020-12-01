@@ -1,17 +1,26 @@
 import User from '../../../models/User'
 
 const addShowCount = async (_, { userId, wordId }) => {
-  await User.find({ _id: userId }, (error, data) => {
-    // gets user
-    data[0].userwords.map((word) => {
-      // finds the word, which user studied
-      if (word._id.equals(wordId)) {
-        word.showCount += 1
-      }
-      User.findByIdAndUpdate(userId, { userwords: data[0].userwords })
-      return word
-    })
-  })
+  try {
+    const user = await User.findById(userId)
+    const word = user.userwords.filter((wrd) => wrd.wordId === wordId)
+
+    // if the word exist
+    if (word.length) {
+      word[0].showCount += 1
+    }
+    // if the word doesnt exist
+    else {
+      user.userwords.push({
+        wordId,
+        showCount: 1,
+      })
+    }
+    await user.save()
+    return user
+  } catch (error) {
+    return error.message
+  }
 }
 
 export default addShowCount
