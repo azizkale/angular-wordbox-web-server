@@ -5,7 +5,7 @@ import dotenv from 'dotenv'
 
 import bodyParser from 'body-parser'
 import cors from 'cors'
-import isAuth from './router/isAuth'
+import routerIsAuth from './Routes/isAuth'
 
 import resolvers from './schema/resolvers'
 import typeDefs from './schema/typeDefs'
@@ -16,13 +16,12 @@ const startServer = async () => {
 
   app.use(cors())
   app.use(bodyParser.json())
+  // Router of isAuth
+  app.use('/apiIsAuth', routerIsAuth)
 
   await mongoose.connect(process.env.MONGO_CONNECTION_STRING, {
     useNewUrlParser: true,
   })
-
-  // Router of isAuth
-  app.use('/apiIsAuth', isAuth)
 
   const server = new ApolloServer({
     typeDefs,
