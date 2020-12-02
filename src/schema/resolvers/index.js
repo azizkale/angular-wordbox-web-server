@@ -7,7 +7,12 @@ import createUser from './mutations/createUser'
 
 const resolvers = {
   Query: {
-    listWords: () => Word.find(),
+    listWords: async (_, { voc, token }) => {
+      if (token) {
+        await Word.find({ word: voc })
+      }
+      return ''
+    },
     listUsers: () => User.find(),
     glosbeWords: globeTranslate,
   },

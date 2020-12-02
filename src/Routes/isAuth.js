@@ -16,7 +16,6 @@ routerIsAuth
   })
   .post((req) => {
     const decoded = jwtDecode(req.body.user.stsTokenManager.accessToken)
-    console.log(decoded)
     module.export = decoded
   })
 
