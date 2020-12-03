@@ -45,7 +45,7 @@ const typeDefs = gql`
   }
 
   type Query {
-    listWords(voc: String, token: Boolean): [Word!]
+    listWords(voc: String, token: String): [Word!]
     listUsers: [User!]
     glosbeWords(word: String!, from: String!, dest: String!): [GlosbeWord]
   }
