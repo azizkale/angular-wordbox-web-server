@@ -9,7 +9,7 @@ const resolvers = {
   Query: {
     listWords: async (_, { voc, token }) => {
       if (JSON.parse(token) != null) {
-        const wrd = await Word.find({ word: voc })
+        const wrd = await Word.find({ word: { $regex: voc } })
         return wrd
       }
       return null
