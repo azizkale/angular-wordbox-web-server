@@ -1,7 +1,7 @@
 import mongoose from 'mongoose'
 
 const User = {
-  id: String,
+  userId: String,
   email: String,
   username: String,
   password: String,

@@ -32,7 +32,7 @@ const typeDefs = gql`
   }
 
   type User {
-    id: ID!
+    userId: ID!
     email: String
     username: String
     password: String
@@ -52,7 +52,7 @@ const typeDefs = gql`
 
   type Mutation {
     createWord(title: String!): Word!
-    createUser(email: String!, username: String!): User!
+    createUser(email: String!, username: String!, userId: ID!): User!
     addShowCount(userId: ID!, wordId: ID!): User
   }
 `

@@ -1,7 +1,7 @@
 import User from '../../../models/User'
 
-const createUser = async (_, { email, username }) => {
-  const user = new User({ email, username })
+const createUser = async (_, { email, username, userId }) => {
+  const user = new User({ email, username, userId })
   try {
     const existingUser = await User.findOne({ email })
     if (existingUser) {
