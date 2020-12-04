@@ -1,6 +1,13 @@
+import jwtDecode from 'jwt-decode'
 import User from '../../../models/User'
 
-const createUser = async (_, { email, username, userId }) => {
+const createUser = async (_, { token }) => {
+  const decoded = jwtDecode(JSON.parse(token).stsTokenManager.accessToken)
+
+  const { email } = decoded
+  const username = decoded.email.match(/^([^@]*)@/)[1]
+  const userId = decoded.user_id
+
   const user = new User({ email, username, userId })
   try {
     const existingUser = await User.findOne({ email })
