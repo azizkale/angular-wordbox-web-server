@@ -30,6 +30,14 @@ const resolvers = {
       return null
     },
     listUsers: () => User.find(),
+    getSingleUser: async (_, { token }) => {
+      if (JSON.parse(token) != null) {
+        const decoded = jwtDecode(JSON.parse(token).stsTokenManager.accessToken)
+        const user = await User.find({ userId: decoded.user_id })
+        return user
+      }
+      return null
+    },
     glosbeWords: globeTranslate,
   },
   Mutation: {
