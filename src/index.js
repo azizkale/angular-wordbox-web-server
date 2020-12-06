@@ -10,7 +10,7 @@ const startServer = async () => {
   const app = express()
   dotenv.config()
 
-  await mongoose.connect(process.env.MONGO_CONNECTION_STRING, {
+  await mongoose.connect(process.env.MONGODB_CONNECTION_STRING, {
     useNewUrlParser: true,
   })
 
