@@ -38,7 +38,7 @@ mongoose.connect(process.env.MONGODB_CONNECTION_STRING, {
         );
 
         app.get('/api', (req, res) => {
-            res.send('elhamdülillah')
+            res.send('api works')
         })
 
         await httpServer.listen(PORT, () => {
