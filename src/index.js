@@ -14,7 +14,7 @@ const PORT = process.env.PORT || 5000;
 await mongoose.connect(process.env.MONGODB_CONNECTION_STRING, {
     useNewUrlParser: true,
     useUnifiedTopology: true,
-})
+});
 
 const app = express();
 const httpServer = http.createServer(app);
