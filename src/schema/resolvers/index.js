@@ -1,10 +1,10 @@
 import jwtDecode from 'jwt-decode'
-import globeTranslate from './query/glosbeTranslate'
-import createWord from './mutations/createWord'
-import Word from '../../models/Word'
-import User from '../../models/User'
-import addShowCount from './mutations/showCount'
-import createUser from './mutations/createUser'
+import globeTranslate from './query/glosbeTranslate.js'
+import createWord from './mutations/createWord.js'
+import Word from '../../models/Word.js'
+import User from '../../models/User.js'
+import addShowCount from './mutations/showCount.js'
+import createUser from './mutations/createUser.js'
 
 const resolvers = {
   Query: {

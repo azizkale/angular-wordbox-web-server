@@ -1,24 +1,26 @@
-import jwtDecode from 'jwt-decode'
-import User from '../../../models/User'
+import User from '../../../models/User.js'
 
-const createUser = async (_, { token }) => {
-  const decoded = jwtDecode(JSON.parse(token).stsTokenManager.accessToken)
-
-  const { email } = decoded
-  const username = decoded.email.match(/^([^@]*)@/)[1]
-  const userId = decoded.user_id
-
-  const user = new User({ email, username, userId })
+const addShowCount = async (_, { userId, wordId }) => {
   try {
-    const existingUser = await User.findOne({ email })
-    if (existingUser) {
-      throw Error('User exist!')
+    const user = await User.findById(userId)
+    const word = user.userwords.filter((wrd) => wrd.wordId === wordId)
+
+    // if the word exist
+    if (word.length) {
+      word[0].showCount += 1
     }
-    user.save()
+    // if the word doesnt exist
+    else {
+      user.userwords.push({
+        wordId,
+        showCount: 1,
+      })
+    }
+    await user.save()
     return user
   } catch (error) {
-    return { status: 409, message: 'User exist!' }
+    return error.message
   }
 }
 
-export default createUser
+export default addShowCount
