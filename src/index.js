@@ -12,30 +12,35 @@ dotenv.config();
 
 const PORT = process.env.PORT || 5000;
 mongoose.connect(process.env.MONGODB_CONNECTION_STRING, {
-    useNewUrlParser: true,
-    useUnifiedTopology: true,
-})
+        useNewUrlParser: true,
+        useUnifiedTopology: true,
+    })
+    .then(async() => {
+        const app = express();
+        const httpServer = http.createServer(app);
 
-const app = express();
-const httpServer = http.createServer(app);
+        const server = new ApolloServer({
+            typeDefs,
+            resolvers
+        });
 
-const server = new ApolloServer({
-    typeDefs,
-    resolvers
-});
+        await server.listen();
 
-server.listen();
+        await app.use(
+            '/graphql',
+            cors({
+                origin: [
+                    "http://localhost:4200",
+                    "http://192.168.0.17:4200",
+                ]
+            }), expressMiddleware(server),
 
-app.use(
-    '/graphql',
-    cors({
-        origin: [
-            "http://localhost:4200",
-            "http://192.168.0.17:4200",
-        ]
-    }), expressMiddleware(server),
+        );
 
-);
-
-new Promise((resolve) => httpServer.listen(PORT, resolve));
-console.log(`🚀 Server ready at http://localhost:${PORT}/graphql`);
+        await httpServer.listen(PORT, () => {
+            console.log(`🚀 Server ready at http://localhost:${PORT}/graphql`);
+        });
+    })
+    .catch(error => {
+        console.error("Failed to connect to MongoDB:", error);
+    });
