@@ -1,6 +1,6 @@
 import { gql } from 'apollo-server'
 
-const typeDefs = gql `
+const typeDefs = gql`
   type GlosbeWord {
     word: String!
     examples: [String]
