@@ -11,10 +11,10 @@ import { expressMiddleware } from '@apollo/server/express4';
 dotenv.config();
 
 const PORT = process.env.PORT || 5000;
-await mongoose.connect(process.env.MONGODB_CONNECTION_STRING, {
+mongoose.connect(process.env.MONGODB_CONNECTION_STRING, {
     useNewUrlParser: true,
     useUnifiedTopology: true,
-});
+})
 
 const app = express();
 const httpServer = http.createServer(app);
@@ -37,5 +37,5 @@ app.use(
 
 );
 
-await new Promise((resolve) => httpServer.listen(PORT, resolve));
+new Promise((resolve) => httpServer.listen(PORT, resolve));
 console.log(`🚀 Server ready at http://localhost:${PORT}/graphql`);
