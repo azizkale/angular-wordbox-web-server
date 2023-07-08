@@ -1,33 +1,41 @@
-import { ApolloServer } from 'apollo-server-express'
-import express from 'express'
+import { ApolloServer } from "apollo-server";
 import mongoose from 'mongoose'
 import dotenv from 'dotenv'
-
+import cors from 'cors';
+import express from 'express';
+import http from 'http';
 import resolvers from './schema/resolvers/index.js'
 import typeDefs from './schema/typeDefs/index.js'
+import { expressMiddleware } from '@apollo/server/express4';
 
-const startServer = async() => {
-    const app = express()
-    dotenv.config()
+dotenv.config();
 
-    await mongoose.connect(process.env.MONGODB_CONNECTION_STRING, {
-        useNewUrlParser: true,
-        useUnifiedTopology: true,
-    })
+const PORT = process.env.PORT || 5000;
+await mongoose.connect(process.env.MONGODB_CONNECTION_STRING, {
+    useNewUrlParser: true,
+    useUnifiedTopology: true,
+})
 
-    const server = new ApolloServer({
-        typeDefs,
-        resolvers,
-    })
+const app = express();
+const httpServer = http.createServer(app);
 
-    server.applyMiddleware({ app })
+const server = new ApolloServer({
+    typeDefs,
+    resolvers
+});
 
-    app.listen({ port: 4000 }, () =>
-        // eslint-disable-next-line no-console
-        console.log(
-            `🚀 Server ready at http://localhost:4000${server.graphqlPath}ql`,
-        ),
-    )
-}
+await server.listen();
 
-startServer()
+app.use(
+    '/graphql',
+    cors({
+        origin: [
+            "http://localhost:4200",
+            "http://192.168.0.17:4200",
+        ]
+    }), expressMiddleware(server),
+
+);
+
+await new Promise((resolve) => httpServer.listen(PORT, resolve));
+console.log(`🚀 Server ready at http://localhost:${PORT}/graphql`);
