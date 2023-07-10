@@ -28,7 +28,6 @@ const PORT = process.env.PORT || 3000;
 
         await server.start();
 
-
         server.applyMiddleware({
             app,
             cors: {
