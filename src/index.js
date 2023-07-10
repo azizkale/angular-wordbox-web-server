@@ -1,7 +1,6 @@
 import { ApolloServer } from 'apollo-server-express';
 import mongoose from 'mongoose';
 import dotenv from 'dotenv';
-import cors from 'cors';
 import express from 'express';
 import http from 'http';
 import resolvers from './schema/resolvers/index.js';
@@ -27,7 +26,6 @@ const PORT = process.env.PORT || 3000;
         });
 
         await server.start();
-
 
         server.applyMiddleware({
             app,
